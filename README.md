@@ -9,3 +9,15 @@ Udfra midten er der en masse underemner som kan give ens spil mere indhold, samt
 ![?](Resources/Static_Images/CodingPiratesRoadmap.png)
 
 Vær opmærksom på at intet i undervisningsforløbet er fast. Vi opdaterer alting løbende alt efter om et emne er for svært, for let eller om der kommer gode ideer til nye emner.
+
+## Index
+### [Menu](Menu/menu.md)
+#### [Advanced Menu](Menu/Advanced/advanced.md)
+#### [Animation](Menu/Anomation/animation.md)
+#### [Menu Graphics](Menu/Graphics/graphics.md)
+#### [Music](Menu/Music/music.md)
+### [Player](Player/control.md)
+#### [Cosmetics](Player/Cosmetics/cosmetics.md)
+#### [Controller Inputs](Player/Joysticks/joystick.md)
+##### [Local Multiplayer](Player/Joysticks/Multiplayer/multiplayer.md)
+### [Weapons](Weapons/weapon.md)
