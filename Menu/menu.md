@@ -4,7 +4,7 @@ Menuen er det første vi ser når vi starter et spil. I stedet for at blive smid
 ## Introduktion til **Scenes** og **Scenemanagement**
 I Unity kan vi bruge scener til at opdele vores spil i mindre dele. I dette tilfælde skal vi bruge en scene til at vise vores menu, og en anden scene til vores spil. Længere ind i projektet kan vi bruge flere scener til at lave flere levels til vores spil. Fordelen ved at opdele spillet i scener i stedet for at have det hele samlet et sted er hastighed, mange små scener vil køre hurtigt på vores computere, modsat en kæmpe scene som indeholder alt.
 
-! Create Scene
+![Scene Creation](../Resources/Animated_Images/Menu/Creating_Scenes.gif)
 
 Vi starter ud med at lave to nye scener, henholdsvis *Game* og *Menu*. Vi kan skifte imellem dem som vi har lyst, men bemærk når vi laver en ændring i scenen er det vigtigt at vi gemmer. **CTRL + S** er vores vigtigste redskab. Hvis man ikke gemmer sin scene vil alt ens arbejdet i scenen være forsvundet.
 
