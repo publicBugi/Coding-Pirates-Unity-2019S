@@ -13,7 +13,7 @@ Beats per Minute siger hvor hurtig din sang er. En lav BPM giver en roligere san
 Bosca Ceoil har et stort udvalg intrumenter, fra klaver til trommer til klokker. Under "Instrumenter" i det øverste panel kan i finde de instrumenter i gerne vil lege med. 
 Man kan ændre tonehøjde ved at bruge "Low Pass Filter Pad" i samme panel. Her skal man dog være forsigtig da tonehøjden kan bliver meget høj og skarp!
 
-![Instrumenter](.../Resources/Animated_Images/Music/2.Instruments.gif)
+![Instrumenter](..../Resources/Animated_Images/Music/2.Instruments.gif)
 
 ### Musik-skala
 Musik-skalaen er også med til at bestemme om vores sang er glad eller trist. Vi starter med at bruge de to nemmeste skalaer, nemlig "Major" og "Minor". At vores skala er i Major betyder at vores sang er med til at lyde optimistisk og glad, derimod hvis vores skala er i Minor betyder det at vores sang lyder trist og nedtrykt.
