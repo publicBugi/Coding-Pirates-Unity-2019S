@@ -32,10 +32,10 @@ I stedet for at kun have mange korte noter, kan man plassere en længre, vedvare
 ### Flere instrumenter
 Vi ønsker at vores sang skal være sej, og derfor lægger vi flere lag med instrumenter på. Dette gør man ved at vælge "Add New Instrument" under Instrument-panelet. 
 
-![Flere Instrumenter](../../Resources/Animated_Images/Music/6.AddNewInstrument)
+![Flere Instrumenter](../../Resources/Animated_Images/Music/6.AddNewInstrument.gif)
 
 ### Arrangements
 Når man lægger flere instrumenter til, vil man gerne høre dem når man arbejder med dem. Dette gør vi ved at gå ind under "Arrangements" panelet øverst. Her er det en knap der hedder "Add New". Her vil vores nye instrument dukke op, og vi kan dra det ind på vores Arrangement ved at klikke og dra det nye instrument. 
 Herfra kan man også gøre sin sang længre ved at dra dine tidligere Arrangements videre. Hvis du gerne vil fortsætte melodien, men have lidt variation på din hovedmelodi kan man klikke på det valgte Arrangement med musehjulsknappen og dra den videre. 
 
-![Arrangements](../../Resources/Animated_Images/Music/7.AddAndDragArrangements)
+![Arrangements](../../Resources/Animated_Images/Music/7.AddAndDragArrangements.gif)
