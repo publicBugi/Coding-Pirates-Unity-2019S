@@ -18,7 +18,7 @@ Man kan ændre tonehøjde ved at bruge "Low Pass Filter Pad" i samme panel. Her 
 ### Musik-skala
 Musik-skalaen er også med til at bestemme om vores sang er glad eller trist. Vi starter med at bruge de to nemmeste skalaer, nemlig "Major" og "Minor". At vores skala er i Major betyder at vores sang er med til at lyde optimistisk og glad, derimod hvis vores skala er i Minor betyder det at vores sang lyder trist og nedtrykt.
 
-![Vælg skala](../../Resources/Animated_Images/Music/5.ChoosingScale)
+![Vælg skala](../../Resources/Animated_Images/Music/5.ChoosingScale.gif)
 
 ### Plassering af korte og lange noter
 Vi plasserer noter på vores musik-skala ved at venstreklikke på skalaen. Hvis man har plasseret dem forkert, eller hvis det lyder mærkeligt kan man fjerne dem igen ved at højreklikke på noterne.
