@@ -4,6 +4,8 @@ Der er intet spil uden en form for character som vi kan spille. En god en kan la
 Vi vil gennemgå en meget simpel character controller, som er nem at justere til ethvert behov. 
 
 ## Bevægelse i 1 akse
+Vi starter ud med bevægelse i en akse. For at begynde skal vi først bruge et objekt til vores spiller, typisk er dette en kapsel form. 
+
 
 ```C#
 using System.Collections;
@@ -283,15 +285,3 @@ public class PlayerMovement : MonoBehaviour
 }
 ```
 
-
-Introduction to Vector
-Introduction to Rigidbody
-
-Movement in 1 Axis
- - Lock rotation
-Movement in 2 Axis
-
-Camera on Player
-Camera mousefollow & Player rotation
-
-How to jump
