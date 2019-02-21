@@ -168,158 +168,146 @@ public class CameraLook : MonoBehaviour
 
 }
 ```
-
 ## Jump
+Lige nu bevæger vi os kun i 2 dimensioner. Vi kan indføre den 3 dimension ved at hoppe. Et hop er en pludselig indførelse af kraft, hvilket vores Rigidbody sagtens kan klare.
 ```C#
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PlayerMovement : MonoBehaviour
-{
-
-	public RigidBody rb;		// Spillerens Rigidbody
-	public Transform player;	// Spillerens Transform
-
-	public float moveSpeed = 1.0f;	// Hastigheds konstant
-	public float jumpForce = 2f;	// Kraft i hop
-    public float jumpHeight = 2f;	// Længde før vi ikke kan hoppe længere
-
-	// Til RigidBody bruger vi FixedUpdate() i stedet for Update()
-	void FixedUpdate(){
-
-		// Bevægelse med W og S.
-		// VerticalMovement = (W = 1 eller S = -1) * Hastigheds Konstant * Spillerens front.
-		Vector3 VerticalMovement = Input.GetAxis("Vertical") * moveSpeed * player.forward;
-		Vector3 HorizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * player.right;
-
-		// Vi lægger vores hastighedsvektor til spillerens nuværende hastighed.
-		rb.velocity += VerticalMovement + HorizontalMovement;
-
-		// Hop mechanic: Hvis "Jump" knappen trykkes og vi er tæt ved jorden; Så.
-        if(Input.GetButton("Jump") && isGrounded()){
-            // Læg endnu en kraft til vores spiler opad.
-            rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
-        }
-	}
-
-	bool isGrounded(){
-        // Tegn en linje fra spillerens position ned en given længde: Hvis vi rører noget kan vi hoppe.
-        return Physics.Raycast(player.position, Vector3.down, jumpHeight);
-    }
+rb.AddForce(new Vector(0, jumpForce, 0), ForceMode.Impulse);
+```
+Dog vi vil kun gøre det når vi trykker på en knap, heri er "Jump" en god ide da den indeholder "Space".
+```C#
+if(Input.GetButton("Jump")){
+    // Læg endnu en kraft til vores spiler opad.
+    rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
 }
 ```
-
-
-## Anderledes hastighed i luft
-
+Dette er nok hvis vi gerne vil kunne hoppe til uendelige højder, men normale mennesker kan kun hoppe en gang. Derfor har vi brug for en funktion til at fortælle os om vi befinder os på jorden. En __isGrounded()__ Funktion.
 ```C#
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+if(Input.GetButton("Jump") && isGrounded()){
+    // Læg endnu en kraft til vores spiler opad.
+    rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
+}
+```
+Der er mange måde at tjekke om vi befinder os på jorden. Denne gang bruger vi et "Raycast", lidt som våbene vi skal lave næste gang. Et raycast er en linje med en bestemt længde. Hvis linjen rammer noget ved vi at vi befinder os på jorden.
 
-public class PlayerMovement : MonoBehaviour
+For at lave et Raycast skal vi vide position, retning og længde. Dette er Transform.position, Global ned og Hoppe højde.
+```C#
+bool isGrounded(){
+    // Tegn en linje fra spillerens position ned en given længde: Hvis vi rører noget kan vi hoppe.
+    return Physics.Raycast(player.position, Vector3.down, jumpHeight);
+}
+```
+Vi samler det hele til et script som nu kan hoppe.
+```C#
+public Rigidbody rb; 	 // Reference til modellens Rigidbody
+public Transform player; // Reference til modellens position
+
+[Range(-5f,5f)] public float moveSpeed = 1f; // Bevægelses konstant
+
+[Range(0f,5f)] public float jumpForce = 2f;	 // Kraft i hop
+[Range(0f,5f)] public float jumpHeight = 2f;	 // Længde før vi ikke kan hoppe længere
+
+void FixedUpdate() // Alt fysik skal opdateres i FixedUpdate, så det er uafhængig af framerate.
 {
+	Vector3 WSMove = Input.GetAxis("Vertical") * moveSpeed * player.forward; // W & S * Hastighed * Fremad
+	Vector3 ADMove = Input.GetAxis("Horizontal") * moveSpeed * player.right; // A & D * Hastighed * Side
 
-	public RigidBody rb;		// Spillerens Rigidbody
-	public Transform player;	// Spillerens Transform
+	rb.velocity += WSMove + ADMove; // Læg begge hastighed til vores nuværende hastighed.
 
-	public float moveSpeed = 1.0f;	// Hastigheds konstant
-	public float jumpForce = 2f;	// Kraft i hop
-    public float jumpHeight = 2f;	// Længde før vi ikke kan hoppe længere
-
-	// Til RigidBody bruger vi FixedUpdate() i stedet for Update()
-	void FixedUpdate(){
-
-		if(isGrounded()){
-            // Bevægelse med W og S.
-			// VerticalMovement = (W = 1 eller S = -1) * Hastigheds Konstant * Spillerens front.
-			Vector3 VerticalMovement = Input.GetAxis("Vertical") * moveSpeed * player.forward;
-			Vector3 HorizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * player.right;
-
-			// Vi lægger vores hastighedsvektor til spillerens nuværende hastighed.
-			rb.velocity += VerticalMovement + HorizontalMovement;
-
-			// Hop mechanic: Hvis "Jump" knappen trykkes og vi er tæt ved jorden; Så.
-        	if(Input.GetButton("Jump")){
-            	// Læg endnu en kraft til vores spiler opad.
-            	rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
-        	}
-        }
-        else{
-            // Bevægelse med W og S.
-			// VerticalMovement = (W = 1 eller S = -1) * Hastigheds Konstant / 4 * Spillerens front.
-			Vector3 VerticalMovement = Input.GetAxis("Vertical") * moveSpeed/4 * player.forward;
-			Vector3 HorizontalMovement = Input.GetAxis("Horizontal") * moveSpeed/4 * player.right;
-
-			// Vi lægger vores hastighedsvektor til spillerens nuværende hastighed.
-			rb.velocity += VerticalMovement + HorizontalMovement;
-        }
-	}
-
-	bool isGrounded(){
-        // Tegn en linje fra spillerens position ned en given længde: Hvis vi rører noget kan vi hoppe.
-        return Physics.Raycast(player.position, Vector3.down, jumpHeight);
+	if(Input.GetButton("Jump") && isGrounded()){
+        // Læg endnu en kraft til vores spiler opad.
+        rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
     }
+}
+
+bool isGrounded(){
+    // Tegn en linje fra spillerens position ned en given længde: Hvis vi rører noget kan vi hoppe.
+    return Physics.Raycast(player.position, Vector3.down, jumpHeight);
+}
+```
+## Hastighed i Luft
+Vi kan hoppe! Men vi bevæger os super hurtigt i luften, selvom vores fødder ikke rør jorden. Vi kan flytte vores _isGrounded()_ som den første funktion der bliver kaldet, og bevæge os baseret på om vi rør jorden eller ej.
+
+Hvis vi rører jorden bevæger vi os ved normal hastighed og kan hoppe, hvis ikke så bevæger vi os ved en fjerdel hastighed og kan ikke hoppe.
+```C#
+public Rigidbody rb; 	 // Reference til modellens Rigidbody
+public Transform player; // Reference til modellens position
+
+[Range(-5f,5f)] public float moveSpeed = 1f; // Bevægelses konstant
+
+[Range(0f,5f)] public float jumpForce = 2f;	 // Kraft i hop
+[Range(0f,5f)] public float jumpHeight = 2f;	 // Længde før vi ikke kan hoppe længere
+
+void FixedUpdate() // Alt fysik skal opdateres i FixedUpdate, så det er uafhængig af framerate.
+{
+	if(isGrounded()){
+		Vector3 WSMove = Input.GetAxis("Vertical") * moveSpeed * player.forward; // W & S * Hastighed * Fremad
+		Vector3 ADMove = Input.GetAxis("Horizontal") * moveSpeed * player.right; // A & D * Hastighed * Side
+
+		rb.velocity += WSMove + ADMove; // Læg begge hastighed til vores nuværende hastighed.
+
+		if(Input.GetButton("Jump")){
+        	// Læg endnu en kraft til vores spiler opad.
+        	rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
+    	}
+	}
+	else{
+		Vector3 WSMove = Input.GetAxis("Vertical") * moveSpeed/4 * player.forward; // W & S * Hastighed * Fremad
+		Vector3 ADMove = Input.GetAxis("Horizontal") * moveSpeed/4 * player.right; // A & D * Hastighed * Side
+
+		rb.velocity += WSMove + ADMove; // Læg begge hastighed til vores nuværende hastighed.
+	}
+}
+
+bool isGrounded(){
+    // Tegn en linje fra spillerens position ned en given længde: Hvis vi rører noget kan vi hoppe.
+    return Physics.Raycast(player.position, Vector3.down, jumpHeight);
 }
 ```
 
 ## Max hastighed
+Lige nu lægger vi bare en hastighed til vores nuværende hastighed. Dette betyder at vi kan bevæge os til en uendelig hurtigt hvis vi går langt nok. Efter vi har opdateret vores hastighed, burde vi tjekke at vi ikke bevæger os hurtigere end en maksimal hastighed.
+```C#
+if(rb.velocity.magnitude > maxSpeed){ // Er størrelsen af hastighed større end max hastighed?
+	rb.velocity = rb.velocity.normalized * maxSpeed; // Så find retningen vi bevæger os i, og sæt hastigheden til max hastighed.
+}
+```
 
 ```C#
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+public Rigidbody rb; 	 // Reference til modellens Rigidbody
+public Transform player; // Reference til modellens position
 
-public class PlayerMovement : MonoBehaviour
+[Range(-5f,5f)] public float moveSpeed = 1f; // Bevægelses konstant
+[range(0f,25f)] public float maxSpeed = 10.0f;	// Maximum hastighed
+[Range(0f,5f)] public float jumpForce = 2f;	 // Kraft i hop
+[Range(0f,5f)] public float jumpHeight = 2f;	 // Længde før vi ikke kan hoppe længere
+
+void FixedUpdate() // Alt fysik skal opdateres i FixedUpdate, så det er uafhængig af framerate.
 {
+	if(isGrounded()){
+		Vector3 WSMove = Input.GetAxis("Vertical") * moveSpeed * player.forward; // W & S * Hastighed * Fremad
+		Vector3 ADMove = Input.GetAxis("Horizontal") * moveSpeed * player.right; // A & D * Hastighed * Side
 
-	public RigidBody rb;		// Spillerens Rigidbody
-	public Transform player;	// Spillerens Transform
+		rb.velocity += WSMove + ADMove; // Læg begge hastighed til vores nuværende hastighed.
 
-	public float moveSpeed = 1.0f;	// Hastigheds konstant
-	public float maxSpeed = 10.0f;	// Maximum hastighed
-	public float jumpForce = 2f;	// Kraft i hop
-    public float jumpHeight = 2f;	// Længde før vi ikke kan hoppe længere
+		if(Input.GetButton("Jump")){
+        	// Læg endnu en kraft til vores spiler opad.
+        	rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
+    	}
+	}
+	else{
+		Vector3 WSMove = Input.GetAxis("Vertical") * moveSpeed/4 * player.forward; // W & S * Hastighed * Fremad
+		Vector3 ADMove = Input.GetAxis("Horizontal") * moveSpeed/4 * player.right; // A & D * Hastighed * Side
 
-
-	// Til RigidBody bruger vi FixedUpdate() i stedet for Update()
-	void FixedUpdate(){
-		// Hvis vi rør jorden; Bevæg som normalt.
-		if(isGrounded()){
-            // Bevægelse med W og S.
-			// VerticalMovement = (W = 1 eller S = -1) * Hastigheds Konstant * Spillerens front.
-			Vector3 VerticalMovement = Input.GetAxis("Vertical") * moveSpeed * player.forward;
-			Vector3 HorizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * player.right;
-
-			// Vi lægger vores hastighedsvektor til spillerens nuværende hastighed.
-			rb.velocity += VerticalMovement + HorizontalMovement;
-
-			// Hop mechanic: Hvis "Jump" knappen trykkes og vi er tæt ved jorden; Så.
-        	if(Input.GetButton("Jump")){
-            	// Læg endnu en kraft til vores spiler opad.
-            	rb.AddForce(new Vector3(0,jumpForce,0), ForceMode.Impulse);
-        	}
-        }
-        else{ // Hvis vi ikke rør jorden; Bevæg os med lavere hastighed og intet hop.
-            // Bevægelse med W og S.
-			// VerticalMovement = (W = 1 eller S = -1) * Hastigheds Konstant / 4 * Spillerens front.
-			Vector3 VerticalMovement = Input.GetAxis("Vertical") * moveSpeed/4 * player.forward;
-			Vector3 HorizontalMovement = Input.GetAxis("Horizontal") * moveSpeed/4 * player.right;
-
-			// Vi lægger vores hastighedsvektor til spillerens nuværende hastighed.
-			rb.velocity += VerticalMovement + HorizontalMovement;
-        }
-
-        // Hvis vores hastighed er større end maxSpeed; Sæt hastighden til maxSpeed.
-        if(rb.velocity.magnitude > maxSpeed){
-            rb.velocity = rb.velocity.normalized * maxSpeed;
-        }
+		rb.velocity += WSMove + ADMove; // Læg begge hastighed til vores nuværende hastighed.
 	}
 
-	bool isGrounded(){
-        // Tegn en linje fra spillerens position ned en given længde: Hvis vi rører noget kan vi hoppe.
-        return Physics.Raycast(player.position, Vector3.down, jumpHeight);
+	if(rb.velocity.magnitude > maxSpeed){
+    	rb.velocity = rb.velocity.normalized * maxSpeed;
     }
+}
+
+bool isGrounded(){
+    // Tegn en linje fra spillerens position ned en given længde: Hvis vi rører noget kan vi hoppe.
+    return Physics.Raycast(player.position, Vector3.down, jumpHeight);
 }
 ```
