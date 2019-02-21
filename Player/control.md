@@ -1,10 +1,14 @@
 # Player controller
 Der er intet spil uden en form for character som vi kan spille. En god character kan lave et simpelt spil fantastisk, en dårlig en kan ødelægge selv det bedste spil. Der er utalige mange måder at lave en FPS character på, og alle har sine fordele og ulemper. Vi kunne nøjes med at tage en tilfældig en fra standard assets eller asset store, men disse er oftest meget komplicerede og svære at ændre uden meget forhåndsviden.
 
-Vi vil gennemgå en meget simpel character controller, som er nem at justere til ethvert behov. 
+Vi vil gennemgå en meget simpel character controller, som er nem at justere til ethvert behov. Start ud med at vælge en model som spiller og læg en Rigidbody til modellen.
+
+![PlayerCapsule](../Resources/Animated_Images/Controller/CapsulePlayer.gif)
 
 ## Introduktion til Rigidbody bevægelse
 Til at bevæge os i 3-dimensioner skal vi bruge lidt fysik. I Unity skal enhver model bruge en "Rigidbody" hvis de skal inkluderes i Unity's physics engine. Dette betyder enhver model med Rigidbody bliver trukket ned af tyngdekraften, kan blive skubbet rundt af andre objekter og bevæges igennem et script.
+
+![RigidBody](../Resources/Animated_Images/Controller/RigidBody.gif)
 
 For at begynde skal vi altid have en reference til det objekt vi vil manipulere. I dette tilfælde en reference til typen __Rigidbody__.
 ```C#
@@ -57,12 +61,12 @@ Vi kan nu bevæge vores model i alle retninger. Dette er ikke en reel måde at s
 public Rigidbody rb; // Reference til modellens Rigidbody
 
 // Komposanter (dele) af de 3 Dimensioner (X,Y,Z).
-[range(-1f,1f)] public float X = 0f; // X Komposant
-[range(-1f,1f)] public float Y = 0f; // Y Komposant
-[range(-1f,1f)] public float Z = 0f; // Z Komposant
+[Range(-1f,1f)] public float X = 0f; // X Komposant
+[Range(-1f,1f)] public float Y = 0f; // Y Komposant
+[Range(-1f,1f)] public float Z = 0f; // Z Komposant
 // Tilsammen danner disse 3 værdier en retning i 3-dimensioner.
 
-[range(-5f,5f)] public float velocity = 1f; // Bevægelses konstant
+[Range(-5f,5f)] public float velocity = 1f; // Bevægelses konstant
 
 void FixedUpdate() // Alt fysik skal opdateres i FixedUpdate, så det er uafhængig af framerate.
 {
