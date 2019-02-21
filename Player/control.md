@@ -102,6 +102,9 @@ void FixedUpdate() // Alt fysik skal opdateres i FixedUpdate, så det er uafhæn
 Vi kan nu bevæge os! Men vores spiller opfører sig underligt. Vi er ikke interesserede i at vores spiller roterer rundt, så vi låser alle rotations akser.
 ![2Axis](../Resources/Animated_Images/Controller/Movement2Axis.gif)
 ## First Person Camera
+Vi kan bevæge os, men dette er ikke et første person spil indtil vi faktisk har et første person kamera. Vi sletter det globale kamera og danner et nyt under vores spiller. Vi danner et nyt script kaldet "CameraLook" og indsætter koden nedenunder. Koden vil låse musen i spillet, og roterer spilleren baseret på musen således at "fremad" altid er hvor kameraet kigger.
+
+![PlayerCamera](../Resources/Animated_Images/Controller/PlayerCamera.gif)
 
 ```C#
 using System.Collections;
