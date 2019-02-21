@@ -225,7 +225,7 @@ bool isGrounded(){
 }
 ```
 ## Hastighed i Luft
-Vi kan hoppe! Men vi bevæger os super hurtigt i luften, selvom vores fødder ikke rør jorden. Vi kan flytte vores _isGrounded()_ som den første funktion der bliver kaldet, og bevæge os baseret på om vi rør jorden eller ej.
+Vi kan hoppe! Men vi bevæger os super hurtigt i luften, selvom vores fødder ikke rører jorden. Vi kan flytte vores _isGrounded()_ som den første funktion der bliver kaldet, og bevæge os baseret på om vi rør jorden eller ej.
 
 Hvis vi rører jorden bevæger vi os ved normal hastighed og kan hoppe, hvis ikke så bevæger vi os ved en fjerdel hastighed og kan ikke hoppe.
 ```C#
@@ -277,7 +277,7 @@ public Rigidbody rb; 	 // Reference til modellens Rigidbody
 public Transform player; // Reference til modellens position
 
 [Range(-5f,5f)] public float moveSpeed = 1f; // Bevægelses konstant
-[range(0f,25f)] public float maxSpeed = 10.0f;	// Maximum hastighed
+[Range(0f,25f)] public float maxSpeed = 10.0f;	// Maximum hastighed
 [Range(0f,5f)] public float jumpForce = 2f;	 // Kraft i hop
 [Range(0f,5f)] public float jumpHeight = 2f;	 // Længde før vi ikke kan hoppe længere
 
