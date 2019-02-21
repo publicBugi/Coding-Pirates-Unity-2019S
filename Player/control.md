@@ -1,8 +1,76 @@
 # Player controller
-Der er intet spil uden en form for character som vi kan spille. En god en kan lave et simpelt spil fantastisk, en dårlig en kan ødelægge selv det bedste spil. Der er utalige mange måder at lave en FPS character på, og alle har sine fordele og ulemper. Vi kunne nøjes med at tage en tilfældig en fra standard assets eller asset store, men disse er oftest meget komplicerede og svære at ændre uden meget forhåndsviden.
+Der er intet spil uden en form for character som vi kan spille. En god character kan lave et simpelt spil fantastisk, en dårlig en kan ødelægge selv det bedste spil. Der er utalige mange måder at lave en FPS character på, og alle har sine fordele og ulemper. Vi kunne nøjes med at tage en tilfældig en fra standard assets eller asset store, men disse er oftest meget komplicerede og svære at ændre uden meget forhåndsviden.
 
 Vi vil gennemgå en meget simpel character controller, som er nem at justere til ethvert behov. 
 
+## Introduktion til Rigidbody bevægelse
+Til at bevæge os i 3-dimensioner skal vi bruge lidt fysik. I Unity skal enhver model bruge en "Rigidbody" hvis de skal inkluderes i Unity's physics engine. Dette betyder enhver model med Rigidbody bliver trukket ned af tyngdekraften, kan blive skubbet rundt af andre objekter og bevæges igennem et script.
+
+For at begynde skal vi altid have en reference til det objekt vi vil manipulere. I dette tilfælde en reference til typen __Rigidbody__.
+```C#
+public Rigidbody rb; // Reference til modellens Rigidbody
+```
+Herefter skal vi vælge en retning som vi vil bevæge os i. Vi befinder os i 3 Dimensioner, så en retning kan beskrives som 3 tal (X,Y,Z).
+```C#
+public float X = 0f; // X Komposant
+public float Y = 0f; // Y Komposant
+public float Z = 0f; // Z Komposant
+```
+Vi kender retningen, men vi ved ikke hvor hurtigt vi skal bevæge os. Vi skal bruge endnu en værdi: Hastighed.
+```C#
+public float velocity = 1f; // Bevægelses konstant
+```
+Vi har alt vi skal bruge for at bevæge vores model, nu skal vi bare gøre det! Normalt udføres kode i _void Update()_, som kaldes ved hver frame opdatering. Dette er typisk ikke et problem, indtil vi bevæger os 1 meter hver gang vi kalder _Update()_ funktionen. Hvis vi har en computer med en framerate på 120 frames per sekund vil vi bevæge os 120 meter i sekundet. En computer med 60 fps vil dog kun bevæge sig ved 60 meter i sekundet.
+
+Dette er en stor forskel for hvad burde være den samme spiller! Vi benytter i stedet _FixedUpdate()_, som er uafhængig af framerate. Nu vil begge 
+spillere bevæge sig ved en konstant værdi.
+```C#
+void FixedUpdate()
+{
+	// Bevægelse
+}
+```
+For at bevæge os skal vi først samle vores 3 værdier X, Y og Z til at danne en vektor _new Vector3(X,Y,Z)_. Vektoren er hvad der egentligt peger i retningen vi vil have i Unity. 
+```C#
+void FixedUpdate()
+{
+	new Vector3(X,Y,Z);
+}
+```
+
+Længden af vektoren er vores hastighed, for at sikre os at vi bevæger os ved en god hastighed ganger vi den med vores hastighedskonstant.
+```C#
+void FixedUpdate()
+{
+	new Vector3(X,Y,Z) * velocity;
+}
+```
+Denne værdi lægges til som vores Rigidbodys hastighed.
+```C#
+void FixedUpdate()
+{
+	rb.velocity += new Vector3(X,Y,Z) * velocity;
+}
+```
+Vi kan nu bevæge vores model i alle retninger. Dette er ikke en reel måde at spille på, men fundamentalt er dette hvordan vi bevæger vores spiller.
+```C#
+public Rigidbody rb; // Reference til modellens Rigidbody
+
+// Komposanter (dele) af de 3 Dimensioner (X,Y,Z).
+[range(-1f,1f)] public float X = 0f; // X Komposant
+[range(-1f,1f)] public float Y = 0f; // Y Komposant
+[range(-1f,1f)] public float Z = 0f; // Z Komposant
+// Tilsammen danner disse 3 værdier en retning i 3-dimensioner.
+
+[range(-5f,5f)] public float velocity = 1f; // Bevægelses konstant
+
+void FixedUpdate() // Alt fysik skal opdateres i FixedUpdate, så det er uafhængig af framerate.
+{
+	// Lav vores retning og gang med vores hastighed og læg den til vores Rigidbody hastighed.
+	rb.velocity += (new Vector3(X,Y,Z) * velocity); 
+}
+```
+Bemærk at værdierne er nu erstattet med slidere fra (-1, 1) og (-5, 5) ved brug af __[Range(x,y)]__ foran værdien.
 ## Bevægelse i 1 akse
 Vi starter ud med bevægelse i en akse. For at begynde skal vi først bruge et objekt til vores spiller, typisk er dette en kapsel form. 
 
@@ -284,4 +352,3 @@ public class PlayerMovement : MonoBehaviour
     }
 }
 ```
-
